@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List</title>
+  <style>
+    body { font-family: Arial; max-width:600px; margin:40px auto; }
+    input, button { padding:8px; margin:4px; }
+    .done { text-decoration: line-through; color: gray; }
+  </style>
+</head>
+<body>
+  <h1>To-Do List Manager</h1>
+  <input id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+  <button onclick="backup()">Backup</button>
+  <ul id="tasks"></ul>
+
+  <script>
+    async function loadTasks() {
+      const res = await fetch('/api/view');
+      const data = await res.json();
+      const list = document.getElementById('tasks');
+      list.innerHTML = '';
+      data.tasks.forEach(t => {
+        const done = t.text.includes('[DONE]');
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span class="${done ? 'done' : ''}">${t.no}. ${t.text}</span>
+          <button onclick="mark(${t.no})">Mark</button>
+          <button onclick="del(${t.no})">Delete</button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    async function addTask() {
+      const task = document.getElementById('taskInput').value.trim();
+      if (!task) return alert('Enter a task');
+      await fetch('/api/add', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({task})
+      });
+      document.getElementById('taskInput').value = '';
+      loadTasks();
+    }
+
+    async function mark(no) {
+      await fetch('/api/mark', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({no})
+      });
+      loadTasks();
+    }
+
+    async function del(no) {
+      await fetch('/api/delete', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({no})
+      });
+      loadTasks();
+    }
+
+    async function backup() {
+      await fetch('/api/backup', {method:'POST'});
+      alert('Backup created!');
+    }
+
+    loadTasks();
+  </script>
+</body>
+</html>
