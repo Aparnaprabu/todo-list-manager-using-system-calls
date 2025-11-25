@@ -23,12 +23,11 @@ A task management system that combines **C system calls**, a **Flask backend**, 
 ---
 
 ## 📸 Screenshots
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png) 
+![Task List 1](images/image.png)
+![Task List 2](images/image-1.png)
+![Task List 3](images/image-2.png)
+![Task List 4](images/image-3.png)
 
-> Replace `images/...` with the actual folder path where your images are stored.
 
 ---
 
@@ -41,18 +40,20 @@ Open terminal, go to the backend folder, install dependencies, and run the Flask
 cd backend
 pip install -r requirements.txt
 python3 app.py
-2️⃣ Frontend
+```
+
+### 2️⃣ Frontend
 Open the frontend folder and launch the HTML page in your browser:
 
-bash
-Copy code
+```bash
 cd frontend
 open index.html
+```
 The frontend will communicate with the Flask backend.
 
 You can now add, view, mark as done, or delete tasks from the browser.
 
-👥 Team Members
+## 👥 Team Members
 Aparna A
 
 Jenishaa Bharathi M
